@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP4.3: Counter</title>
+    <style>
+        :root {
+	--primary: #D81E5B;
+	--secondary: #8A4FFF;
+	--grey: #AAA;
+	--light: #EEE;
+	--dark: #131A26;
+}
+
+* {
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Fira sans', sans-serif;
+}
+
+body {
+    width: 840px;
+            height: 820px;
+            background-color: var(--light);
+            margin: 10px;
+            padding: 10px;
+            margin: auto;
+            border: 5px solid black;
+}
+
+main {
+	padding: 3rem 2rem;
+	max-width: 640px;
+	margin: 0 auto;
+}
+
+h1 {
+	color: var(--dark);
+	font-size: 4rem;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+    text-align: center;
+}
+.counter {
+	padding: 1rem;
+	border-radius: 1rem;
+	color: green;
+}
+
+.counter-value {
+	font-size: 8rem;
+	text-align: center;
+}
+
+.counter-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 -1rem;
+}
+
+button {
+	appearance: none;
+	outline: none;
+	border: 5px solid silver;
+	background: none;
+	margin: 0 1rem;
+	color: var(--primary);
+	font-size: 1.5rem;
+	font-weight: 700;
+	text-transform: uppercase;
+
+	cursor: pointer;
+	transition: 0.4s ease-in-out;
+}
+
+button span {
+	display: block;
+	transition: 0.4s ease-in-out;
+}
+
+button[data-action="reset"] {
+    background-color: var(--dark);;
+    color: white;
+	opacity: 0.5;
+}
+
+button[data-action="reset"]:hover {
+	opacity: 1;
+}
+button[data-action="decrease"] {
+    background-color: var(--dark);;
+    color: white;
+	opacity: 0.5;
+}
+
+button[data-action="decrease"]:hover {
+	opacity: 1;
+}
+button[data-action="increase"] {
+    background-color: var(--dark);;
+    color: white;
+	opacity: 0.5;
+}
+
+button[data-action="increase"]:hover {
+	opacity: 1;
+}
+
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+    </style>
+</head>
+    <body>
+        <main>
+            <h1>Counter</h1>
+            <div class="counter">
+                <div class="counter-value">0</div>
+                <div class="counter-controls">
+                    <button data-action="decrease">
+                        <span>Decrease</span>
+                    </button>
+                    <button data-action="reset">
+                        <span>Reset</span>
+                    </button>
+                    <button data-action="increase">
+                        <span>Increase</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+        <script>
+            const actions = Array.from(document.querySelectorAll('[data-action]'));
+         
+         let counter = localStorage.getItem("counter") || 0;
+         
+         document.querySelector(".counter-value").innerText = counter;
+         
+         actions.forEach(action => {
+             action.addEventListener('click', () => {
+                 const action_name = action.dataset.action;
+                 action.classList.add("animate");
+                 setTimeout(() => {
+                     action.classList.remove("animate");
+                 }, 1000);
+                 switch (action_name) {
+                     case 'increase':
+                         counter++;
+                         localStorage.setItem("counter", counter);
+                         break;
+                     case 'decrease':
+                         counter--;
+                         localStorage.setItem("counter", counter);
+                         break;
+                     case 'reset':
+                         counter = 0;
+                         localStorage.setItem("counter", counter);
+                         break; 
+                 }
+                 document.querySelector(".counter-value").innerText = counter;
+                });
+});
+       </script>
+    </body>
+    </html>
